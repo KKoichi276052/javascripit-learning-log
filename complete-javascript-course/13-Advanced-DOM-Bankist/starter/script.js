@@ -148,3 +148,42 @@ const imgObserver = new IntersectionObserver(loadImg, {
 });
 
 imaTargets.forEach(img => imgObserver.observe(img));
+
+const sliders = document.querySelectorAll('.slide');
+const sliderLeftBtn = document.querySelector('.slider__btn--left');
+const sliderRightBtn = document.querySelector('.slider__btn--right');
+let activeSlide = 0;
+
+// Function to set the initial position of each slider or update positions
+const updateSliders = function (direction) {
+  // Calculate the new activeSlide based on the direction
+  if (direction === 'left') {
+    activeSlide = activeSlide === 0 ? sliders.length - 1 : activeSlide - 1;
+  } else if (direction === 'right') {
+    activeSlide = activeSlide === sliders.length - 1 ? 0 : activeSlide + 1;
+  }
+
+  // Update each slider's position based on the new activeSlide
+  sliders.forEach((slider, i) => {
+    slider.style.transform = `translateX(${(i - activeSlide) * 100}%)`;
+  });
+};
+
+// Initialize sliders to their starting positions without changing activeSlide
+const initializeSliders = function () {
+  sliders.forEach((slider, index) => {
+    slider.style.transform = `translateX(${index * 100}%)`;
+  });
+  // Optionally, call updateSliders here if you want to ensure consistent positioning logic
+  // updateSliders(); // Uncomment if you want to initialize with the first slide centered
+};
+
+// Attach event listeners or call these functions based on user interaction
+initializeSliders(); // Initialize positions at script load or when needed
+
+// Simplified slide control functions
+const slideLeft = () => updateSliders('left');
+const slideRight = () => updateSliders('right');
+
+sliderLeftBtn.addEventListener('click', slideLeft);
+sliderRightBtn.addEventListener('click', slideRight);
