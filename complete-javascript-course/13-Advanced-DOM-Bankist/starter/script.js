@@ -13,6 +13,12 @@ const tabsContents = document.querySelectorAll('.operations__content');
 const nav = document.querySelector('.nav');
 const header = document.querySelector('.header');
 const navHeight = nav.getBoundingClientRect().height;
+const sections = document.querySelectorAll('.section');
+const imaTargets = document.querySelectorAll('img[data-src]');
+const dotContainer = document.querySelector('.dots');
+const sliders = document.querySelectorAll('.slide');
+const sliderLeftBtn = document.querySelector('.slider__btn--left');
+const sliderRightBtn = document.querySelector('.slider__btn--right');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -88,6 +94,7 @@ const handleHover = function (e) {
 nav.addEventListener('mouseover', handleHover.bind(0.5));
 nav.addEventListener('mouseout', handleHover.bind(1));
 
+// Sticky nav
 const stickyNav = function (entries) {
   const [entry] = entries;
 
@@ -104,7 +111,6 @@ const headerObserver = new IntersectionObserver(stickyNav, {
 headerObserver.observe(header);
 
 // Reveal sections
-const sections = document.querySelectorAll('.section');
 const revealSection = function (entries, observer) {
   const [entry] = entries;
 
@@ -125,8 +131,6 @@ sections.forEach(function (section) {
 });
 
 // Lazy loading images
-const imaTargets = document.querySelectorAll('img[data-src]');
-
 const loadImg = function (entries, observer) {
   const [entry] = entries;
 
@@ -149,41 +153,71 @@ const imgObserver = new IntersectionObserver(loadImg, {
 
 imaTargets.forEach(img => imgObserver.observe(img));
 
-const sliders = document.querySelectorAll('.slide');
-const sliderLeftBtn = document.querySelector('.slider__btn--left');
-const sliderRightBtn = document.querySelector('.slider__btn--right');
+// Slider
+
 let activeSlide = 0;
+let sliderLength = sliders.length;
+
+const createDots = function () {
+  sliders.forEach(function (_, i) {
+    dotContainer.insertAdjacentHTML(
+      'beforeend',
+      `<button class="dots__dot" data-slide="${i}"></button>`
+    );
+  });
+};
+
+const activateDot = function (slide) {
+  document
+    .querySelectorAll('.dots__dot')
+    .forEach(dot => dot.classList.remove('dots__dot--active'));
+
+  document
+    .querySelector(`.dots__dot[data-slide="${slide}"]`)
+    .classList.add('dots__dot--active');
+};
+
+const goToSlide = function (active) {
+  sliders.forEach(
+    (slider, i) =>
+      (slider.style.transform = `translateX(${(i - active) * 100}%)`)
+  );
+  activateDot(active);
+};
 
 // Function to set the initial position of each slider or update positions
 const updateSliders = function (direction) {
   // Calculate the new activeSlide based on the direction
   if (direction === 'left') {
-    activeSlide = activeSlide === 0 ? sliders.length - 1 : activeSlide - 1;
-  } else if (direction === 'right') {
-    activeSlide = activeSlide === sliders.length - 1 ? 0 : activeSlide + 1;
+    activeSlide = activeSlide === 0 ? sliderLength - 1 : activeSlide - 1;
+  }
+
+  if (direction === 'right') {
+    activeSlide = activeSlide === sliderLength - 1 ? 0 : activeSlide + 1;
   }
 
   // Update each slider's position based on the new activeSlide
-  sliders.forEach((slider, i) => {
-    slider.style.transform = `translateX(${(i - activeSlide) * 100}%)`;
-  });
+  goToSlide(activeSlide);
 };
 
-// Initialize sliders to their starting positions without changing activeSlide
-const initializeSliders = function () {
-  sliders.forEach((slider, index) => {
-    slider.style.transform = `translateX(${index * 100}%)`;
-  });
-  // Optionally, call updateSliders here if you want to ensure consistent positioning logic
-  // updateSliders(); // Uncomment if you want to initialize with the first slide centered
-};
-
-// Attach event listeners or call these functions based on user interaction
-initializeSliders(); // Initialize positions at script load or when needed
-
-// Simplified slide control functions
 const slideLeft = () => updateSliders('left');
 const slideRight = () => updateSliders('right');
 
+// Init
+const init = function () {
+  createDots();
+  activateDot(0);
+  goToSlide(0);
+};
+
+init();
+
+// Event listeners
 sliderLeftBtn.addEventListener('click', slideLeft);
 sliderRightBtn.addEventListener('click', slideRight);
+dotContainer.addEventListener('click', function (e) {
+  if (e.target.classList.contains('dots__dot')) {
+    const { slide } = e.target.dataset;
+    goToSlide(slide);
+  }
+});
