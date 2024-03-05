@@ -27,3 +27,28 @@ const john = new Person('john', 1994);
 console.log(john);
 
 john.calcAge();
+
+///////////////// Coding challenge /////////////////////
+// #1
+class Car {
+  constructor(maker, speed) {
+    this.maker = maker;
+    this.speed = speed;
+  }
+}
+
+Car.prototype.accelerate = function () {
+  this.speed *= 2;
+};
+Car.prototype.brake = function () {
+  this.speed /= 2;
+};
+
+const bmw = new Car('BMW', 120);
+console.log(bmw);
+bmw.accelerate();
+
+console.log(bmw);
+
+bmw.brake();
+console.log(bmw);
