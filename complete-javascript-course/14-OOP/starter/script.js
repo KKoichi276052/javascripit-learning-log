@@ -11,15 +11,20 @@ class Person {
     this.firstName = firstName;
     this.birthYear = birthYear;
   }
+
+  // With using class, no need to add to Prototype
+  calcAge() {
+    console.log(2053 - this.birthYear);
+  }
 }
 
 const koichi = new Person('koichi', 1996);
 console.log(koichi);
 
-// Prototypes
-Person.prototype.calcAge = function () {
-  console.log(2053 - this.birthYear);
-};
+// add methods Prototypes
+// Person.prototype.calcAge = function () {
+//   console.log(2053 - this.birthYear);
+// };
 
 console.log(Person.prototype);
 
