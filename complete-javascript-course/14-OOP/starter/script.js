@@ -40,14 +40,27 @@ class Car {
     this.maker = maker;
     this.speed = speed;
   }
+
+  accelerate() {
+    this.speed *= 2;
+  }
+
+  brake() {
+    this.speed /= 2;
+  }
+
+  get speedUS() {
+    return this.speed / 1.6;
+  }
 }
 
-Car.prototype.accelerate = function () {
-  this.speed *= 2;
-};
-Car.prototype.brake = function () {
-  this.speed /= 2;
-};
+// // need not when using class
+// Car.prototype.accelerate = function () {
+//   this.speed *= 2;
+// };
+// Car.prototype.brake = function () {
+//   this.speed /= 2;
+// };
 
 const bmw = new Car('BMW', 120);
 console.log(bmw);
@@ -57,3 +70,22 @@ console.log(bmw);
 
 bmw.brake();
 console.log(bmw);
+
+const PersonProto = {
+  calcAge() {
+    console.log(2503 - this.birthYear);
+  },
+};
+
+const steven = Object.create(PersonProto);
+console.log(steven);
+steven.name = 'Steven';
+steven.birthYear = 1995;
+steven.calcAge();
+
+const ford = new Car('Ford', 120);
+ford.accelerate();
+console.log(ford.speed);
+ford.brake();
+console.log(ford.speed);
+console.log(ford.speedUS);
