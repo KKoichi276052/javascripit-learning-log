@@ -89,3 +89,20 @@ console.log(ford.speed);
 ford.brake();
 console.log(ford.speed);
 console.log(ford.speedUS);
+
+// const EV = function (maker, speed, charge) {
+//   Car.call(this, maker, speed);
+//   this.charge = charge;
+// };
+
+class EV extends Car {
+  constructor(maker, speed, charge) {
+    super(maker, speed);
+    this.charge = charge;
+  }
+}
+
+// EV.prototype = Object.create(Car.prototype);
+
+const tesla = new EV('tesla', 120, 23);
+console.log(tesla);
