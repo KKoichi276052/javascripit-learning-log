@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "requirejs": "^2.3.6",
+    "uuid": "^9.0.1"
+  },
+  "name": "starter",
+  "module": "index.ts",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
