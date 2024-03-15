@@ -144,93 +144,6 @@ class App {
         `${workout.type === 'running' ? '🏃' : '🚴'} ${workout.description}`
       )
       .openPopup();
-
-    this._renderWorkout(workout);
-  }
-
-  _renderWorkout(workout) {
-    console.log(workout);
-    let html = `
-      <li class="workout workout--${workout.type}" data-id="${workout.id}">
-        <h2 class="workout__title">${workout.description}</h2>
-        <div class="workout__details">
-          <span class="workout__icon">${
-            workout.type === 'running' ? '🏃' : '🚴'
-          }</span>
-          <span class="workout__value">${workout.distance}</span>
-          <span class="workout__unit">km</span>
-        </div>
-        <div class="workout__details">
-          <span class="workout__icon">⏱</span>
-          <span class="workout__value">${workout.duration}</span>
-          <span class="workout__unit">min</span>
-        </div>
-    `;
-
-    switch (workout.type) {
-      case 'running':
-        html += `
-          <div class="workout__details">
-            <span class="workout__icon">⚡️</span>
-            <span class="workout__value">${workout.pace.toFixed(1)}</span>
-            <span class="workout__unit">min/km</span>
-          </div>
-          <div class="workout__details">
-            <span class="workout__icon">🦶🏼</span>
-            <span class="workout__value">${workout.cadence}</span>
-            <span class="workout__unit">spm</span>
-          </div>
-        </li>
-      `;
-        break;
-      case 'cycling':
-        html += `
-            <div class="workout__details">
-              <span class="workout__icon">⚡️</span>
-              <span class="workout__value">${workout.speed.toFixed(1)}</span>
-              <span class="workout__unit">min/km</span>
-            </div>
-            <div class="workout__details">
-              <span class="workout__icon">🦶🏼</span>
-              <span class="workout__value">${workout.elevationGain}</span>
-              <span class="workout__unit">spm</span>
-            </div>
-          </li>
-        `;
-        break;
-    }
-
-    // if (workout.type === 'running')
-    //   html += `
-    //       <div class="workout__details">
-    //         <span class="workout__icon">⚡️</span>
-    //         <span class="workout__value">${workout.pace.toFixed(1)}</span>
-    //         <span class="workout__unit">min/km</span>
-    //       </div>
-    //       <div class="workout__details">
-    //         <span class="workout__icon">🦶🏼</span>
-    //         <span class="workout__value">${workout.cadence}</span>
-    //         <span class="workout__unit">spm</span>
-    //       </div>
-    //     </li>
-    //   `;
-
-    // if (workout.type === 'cycling')
-    //   html += `
-    //       <div class="workout__details">
-    //         <span class="workout__icon">⚡️</span>
-    //         <span class="workout__value">${workout.speed.toFixed(1)}</span>
-    //         <span class="workout__unit">min/km</span>
-    //       </div>
-    //       <div class="workout__details">
-    //         <span class="workout__icon">🦶🏼</span>
-    //         <span class="workout__value">${workout.elevationGain}</span>
-    //         <span class="workout__unit">spm</span>
-    //       </div>
-    //     </li>
-    //   `;
-
-    form.insertAdjacentHTML('afterend', html);
   }
 
   _renderWorkout(workout) {
@@ -319,7 +232,6 @@ class App {
 
   _moveToPopup(e) {
     const workoutEl = e.target.closest('.workout');
-    console.log(workoutEl);
 
     if (!workoutEl) return;
 
@@ -352,7 +264,6 @@ class App {
     const type = inputType.value;
     const distance = +inputDistance.value;
     const duration = +inputDuration.value;
-    // const elevation = +inputElevation.value;
     const { lat, lng } = this.#mapEvent.latlng;
     let workout;
 
