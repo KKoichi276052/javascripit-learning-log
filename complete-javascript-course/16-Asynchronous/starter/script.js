@@ -2,6 +2,8 @@
 
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
+import { API_KEY } from './config.js';
+// console.log(API_KEY);
 
 ///////////////////////////////////////
 
