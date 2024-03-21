@@ -3,7 +3,6 @@
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 import { API_KEY } from './config.js';
-console.log(API_KEY);
 
 ///////////////////////////////////////
 
@@ -32,10 +31,10 @@ console.log(API_KEY);
 //   countriesContainer.style.opacity = 1;
 // };
 
-// const renderError = function (msg) {
-//   countriesContainer.insertAdjacentText('beforeend', msg);
-//   countriesContainer.style.opacity = 1;
-// };
+const renderError = function (msg) {
+  countriesContainer.insertAdjacentText('beforeend', msg);
+  countriesContainer.style.opacity = 1;
+};
 
 // const getCountryAndNeighbour = function (country) {
 //   const request = new XMLHttpRequest();
@@ -100,13 +99,24 @@ console.log(API_KEY);
 // };
 
 const whereAmI = function (lat, lon) {
-  fetch(`{'http://api.positionstack.com/v1/reverse
-    ? access_key = https://geocode.maps.co/reverse?lat=latitude&lon=longitude&api_key=65fc0b9949347966157451oew67ae80
-    & query = ${lat}, ${lon}`)
-    .then(response => response.json())
-    .then(data => console.log(data));
+  fetch(
+    `https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}&api_key=${API_KEY}`
+  )
+    .then(response => {
+      if (!response.ok)
+        throw new Error(`Something went wrong (${response.status})`);
+      response.json();
+    })
+    .then(data =>
+      console.log(`You are in ${data.address.city}, ${data.address.country}`)
+    )
+    .catch(err => {
+      renderError(err);
+    });
 };
 
 btn.addEventListener('click', function () {
   whereAmI(52.508, 13.381);
+  whereAmI(19.037, 72.873);
+  // whereAmI(-33.933, 18.474);
 });
