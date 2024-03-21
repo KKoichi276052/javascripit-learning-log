@@ -2,8 +2,6 @@
 
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
-import { API_KEY } from './config.js';
-// console.log(API_KEY);
 
 ///////////////////////////////////////
 
@@ -102,3 +100,38 @@ const getCountryData = function (country) {
 btn.addEventListener('click', function () {
   getCountryData('australia');
 });
+
+// Create Promise
+const lotteryPromise = new Promise(function (resolve, reject) {
+  console.log('lottery draw is happening');
+  setTimeout(() => {
+    if (Math.random() >= 0.5) {
+      resolve('You WIN');
+    } else {
+      reject('You lost');
+    }
+  }, 2000);
+});
+
+lotteryPromise.then(res => console.log(res)).catch(err => console.log(err));
+
+// Promisifying setTimeout
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+wait(1)
+  .then(() => {
+    console.log('1 sec passed');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('2 sec passed');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('3 sec passed');
+    return wait(1);
+  });
