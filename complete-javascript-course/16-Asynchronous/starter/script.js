@@ -98,25 +98,38 @@ const renderError = function (msg) {
 //     });
 // };
 
-const whereAmI = function (lat, lon) {
-  fetch(
-    `https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}&api_key=${API_KEY}`
-  )
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+const whereAmI = function () {
+  getPosition()
+    .then(pos => {
+      const { latitude: lat, longitude: lon } = pos.coords;
+      return fetch(
+        `https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}&api_key=${API_KEY}`
+      );
+    })
     .then(response => {
+      console.log(response.json);
       if (!response.ok)
         throw new Error(`Something went wrong (${response.status})`);
-      response.json();
+      return response.json();
     })
-    .then(data =>
-      console.log(`You are in ${data.address.city}, ${data.address.country}`)
-    )
+    .then(data => {
+      console.log(data);
+      console.log(`You are in ${data.address.city}, ${data.address.country}`);
+    })
     .catch(err => {
       renderError(err);
+      console.log(err);
     });
 };
 
 btn.addEventListener('click', function () {
-  whereAmI(52.508, 13.381);
-  whereAmI(19.037, 72.873);
+  whereAmI();
+  // whereAmI(19.037, 72.873);
   // whereAmI(-33.933, 18.474);
 });
