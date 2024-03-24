@@ -135,3 +135,13 @@ btn.addEventListener('click', function () {
 //     console.log('3 sec passed');
 //     return wait(1);
 //   });
+
+const whereAmI = async function (country) {
+  const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+  const data = await res.json();
+  console.log(res);
+  renderCountry(data[0]);
+};
+
+whereAmI('portugal');
+console.log('first');
