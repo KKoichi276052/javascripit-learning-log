@@ -2,6 +2,7 @@
 
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
+import { API_KEY } from './config.js';
 
 ///////////////////////////////////////
 
@@ -98,7 +99,7 @@ const getCountryData = function (country) {
 };
 
 btn.addEventListener('click', function () {
-  getCountryData('australia');
+  // getCountryData('australia');
 });
 
 const getPosition = function () {
@@ -142,20 +143,25 @@ const getPosition = function () {
 //     return wait(1);
 //   });
 
-const whereAmI = async function (country) {
+const whereAmI = async function () {
   const position = await getPosition();
   const { latitude: lat, longitude: lon } = position.coords;
 
   const resGeo = await fetch(
     `https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}&api_key=${API_KEY}`
   );
-  resGeo.json();
+  console.log(resGeo);
+  const dataGeo = await resGeo.json();
+  console.log(dataGeo);
 
-  const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+  const res = await fetch(
+    `https://restcountries.com/v3.1/name/${dataGeo.address.country}`
+  );
+  console.log(res);
   const data = await res.json();
   console.log(res);
   renderCountry(data[0]);
 };
 
-whereAmI('portugal');
+whereAmI();
 console.log('first');
