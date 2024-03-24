@@ -165,7 +165,7 @@ const whereAmI = async function () {
   }
 };
 
-whereAmI();
+// whereAmI();
 // console.log('first');
 
 (async function () {
@@ -176,7 +176,7 @@ whereAmI();
     console.error(`2: ${err.message}`);
   }
   console.log('3: finished getting location');
-});
+})();
 
 const get3Countries = async function (c1, c2, c3) {
   try {
@@ -185,10 +185,46 @@ const get3Countries = async function (c1, c2, c3) {
       getJSON(`https://restcountries.com/v3.1/name/${c2}`),
       getJSON(`https://restcountries.com/v3.1/name/${c3}`),
     ]);
+    console.log(data);
     console.log(data.map(d => d[0].capital[0]));
   } catch (err) {
     console.error(err);
   }
 };
 
-get3Countries('japan', 'mongol', 'canada');
+// get3Countries('japan', 'mongol', 'canada');
+
+// async race
+(async function () {
+  const [res] = await Promise.race([
+    getJSON(`https://restcountries.com/v3.1/name/spain`),
+    getJSON(`https://restcountries.com/v3.1/name/sweden`),
+    getJSON(`https://restcountries.com/v3.1/name/finland`),
+  ]);
+  console.log(res);
+  console.log(res[0]);
+})();
+
+Promise.allSettled([
+  Promise.resolve('success'),
+  Promise.reject('error'),
+  Promise.resolve('another success'),
+])
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+Promise.all([
+  Promise.resolve('success'),
+  Promise.reject('error'),
+  Promise.resolve('another success'),
+])
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+Promise.any([
+  Promise.resolve('success'),
+  Promise.reject('error'),
+  Promise.resolve('another success'),
+])
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
