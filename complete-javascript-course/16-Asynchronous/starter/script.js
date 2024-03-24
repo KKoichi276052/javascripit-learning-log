@@ -151,9 +151,7 @@ const whereAmI = async function () {
     const resGeo = await fetch(
       `https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}&api_key=${API_KEY}`
     );
-    console.log(resGeo);
     const dataGeo = await resGeo.json();
-    console.log(dataGeo);
 
     const res = await fetch(
       `https://restcountries.com/v3.1/name/${dataGeo.address.country}`
@@ -169,4 +167,14 @@ const whereAmI = async function () {
 };
 
 whereAmI();
-console.log('first');
+// console.log('first');
+
+(async function () {
+  try {
+    const city = await whereAmI();
+    console.log(`2: ${city}`);
+  } catch (err) {
+    console.error(`2: ${err.message}`);
+  }
+  console.log('3: finished getting location');
+});
