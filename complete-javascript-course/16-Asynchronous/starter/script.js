@@ -133,3 +133,26 @@ btn.addEventListener('click', function () {
   // whereAmI(19.037, 72.873);
   // whereAmI(-33.933, 18.474);
 });
+
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const img = document.createElement('img');
+    img.src = imgPath;
+
+    img.addEventListener('load', function () {
+      imgContainer.append(img);
+      resolve(img);
+    });
+
+    img.addEventListener('error', function () {
+      reject(new Error('image not found'));
+    });
+  });
+};
+
+createImage('img/img-1.jpg')
+  .then(img => {
+    console.log('Image 1 loaded');
+    wait(2);
+  })
+  .catch(err => console.error(err));
