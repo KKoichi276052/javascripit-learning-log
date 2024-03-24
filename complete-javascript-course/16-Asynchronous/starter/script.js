@@ -144,23 +144,28 @@ const getPosition = function () {
 //   });
 
 const whereAmI = async function () {
-  const position = await getPosition();
-  const { latitude: lat, longitude: lon } = position.coords;
+  try {
+    const position = await getPosition();
+    const { latitude: lat, longitude: lon } = position.coords;
 
-  const resGeo = await fetch(
-    `https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}&api_key=${API_KEY}`
-  );
-  console.log(resGeo);
-  const dataGeo = await resGeo.json();
-  console.log(dataGeo);
+    const resGeo = await fetch(
+      `https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}&api_key=${API_KEY}`
+    );
+    console.log(resGeo);
+    const dataGeo = await resGeo.json();
+    console.log(dataGeo);
 
-  const res = await fetch(
-    `https://restcountries.com/v3.1/name/${dataGeo.address.country}`
-  );
-  console.log(res);
-  const data = await res.json();
-  console.log(res);
-  renderCountry(data[0]);
+    const res = await fetch(
+      `https://restcountries.com/v3.1/name/${dataGeo.address.country}`
+    );
+    if (!res.ok) throw new Error('Problem getting location data');
+
+    const data = await res.json();
+    renderCountry(data[0]);
+  } catch (err) {
+    console.error(`${err}`);
+    renderError(`something went wrong ${err.message}`);
+  }
 };
 
 whereAmI();
