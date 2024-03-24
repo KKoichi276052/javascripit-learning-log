@@ -7,7 +7,6 @@ import { API_KEY } from './config.js';
 ///////////////////////////////////////
 
 const renderCountry = function (data, className = '') {
-  console.log(data.flags.png);
   const html = `
 		<article class="country ${className}">
 			<img class="country__img" src="${data.flags.png}" />
@@ -178,3 +177,18 @@ whereAmI();
   }
   console.log('3: finished getting location');
 });
+
+const get3Countries = async function (c1, c2, c3) {
+  try {
+    const data = await Promise.all([
+      getJSON(`https://restcountries.com/v3.1/name/${c1}`),
+      getJSON(`https://restcountries.com/v3.1/name/${c2}`),
+      getJSON(`https://restcountries.com/v3.1/name/${c3}`),
+    ]);
+    console.log(data.map(d => d[0].capital[0]));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+get3Countries('japan', 'mongol', 'canada');
