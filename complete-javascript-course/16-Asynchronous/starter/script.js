@@ -144,9 +144,12 @@ const getPosition = function () {
 
 const whereAmI = async function (country) {
   const position = await getPosition();
-  const { latitude: lat, longitude: lon } = pos.coords;
+  const { latitude: lat, longitude: lon } = position.coords;
 
-  const res = await fetch();
+  const resGeo = await fetch(
+    `https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}&api_key=${API_KEY}`
+  );
+  resGeo.json();
 
   const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
   const data = await res.json();
