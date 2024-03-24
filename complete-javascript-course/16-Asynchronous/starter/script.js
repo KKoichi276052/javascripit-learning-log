@@ -101,6 +101,12 @@ btn.addEventListener('click', function () {
   getCountryData('australia');
 });
 
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
 // Create Promise
 // const lotteryPromise = new Promise(function (resolve, reject) {
 //   console.log('lottery draw is happening');
@@ -137,6 +143,11 @@ btn.addEventListener('click', function () {
 //   });
 
 const whereAmI = async function (country) {
+  const position = await getPosition();
+  const { latitude: lat, longitude: lon } = pos.coords;
+
+  const res = await fetch();
+
   const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
   const data = await res.json();
   console.log(res);
