@@ -2,6 +2,7 @@ import * as ShoppingCart from './shoppingCart.js';
 
 ShoppingCart.addToCart('shsehb', 5);
 import add from './shoppingCart.js';
+import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
 
 add();
 
@@ -40,3 +41,18 @@ const ShoppingCart2 = (function () {
 })();
 
 ShoppingCart2.addToCart('apple', 6);
+
+const state = {
+  cart: [
+    { product: 'bread', quantity: 5 },
+    { product: 'pizza', quantity: 5 },
+  ],
+  user: { loggedIn: true },
+};
+const stateClone = Object.assign({}, state);
+const stateDeepClone = cloneDeep(state);
+
+state.user.loggedIn = false;
+console.log(stateClone);
+
+console.log(stateDeepClone);
