@@ -1,8 +1,8 @@
-import * as ShoppingCart from './shoppingCart.js';
+// import * as ShoppingCart from './shoppingCart.js';
 
-ShoppingCart.addToCart('shsehb', 5);
-import add from './shoppingCart.js';
-import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+// ShoppingCart.addToCart('shsehb', 5);
+// import add from './shoppingCart.js';
+import cloneDeep from 'lodash-es';
 
 add();
 
@@ -54,5 +54,8 @@ const stateDeepClone = cloneDeep(state);
 
 state.user.loggedIn = false;
 console.log(stateClone);
-
 console.log(stateDeepClone);
+
+if (module.hot) {
+  module.hot.accept();
+}
