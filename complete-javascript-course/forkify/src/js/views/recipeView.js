@@ -5,13 +5,15 @@ import { numberToFraction } from "../helpers";
 class RecipeView {
   #parentEl = document.querySelector(".recipe");
   #data;
+  #errorMessage =
+    "We could not find that recipe. Please try another operations__content--active";
+  #message;
 
   renderRecipe(data) {
     this.#data = data;
     console.log(this.#data);
     this.#clear();
     const markup = this.#generateRecipe();
-    console.log(markup);
     this.#parentEl.insertAdjacentHTML("afterbegin", markup);
   }
 
@@ -25,8 +27,47 @@ class RecipeView {
       <svg>
         <use href="src/img/icons.svg#icon-loader"></use>
       </svg>
+			
     </div>
   `;
+
+    this.#clear();
+    this.#parentEl.insertAdjacentHTML("afterbegin", markup);
+  }
+
+  addHandlerRender(handler) {
+    ["hashChange", "load"].forEach((ev) =>
+      window.addEventListener(ev, handler)
+    );
+  }
+
+  renderError(message = this.#errorMessage) {
+    const markup = `
+		<div class="error">
+			<div>
+				<svg>
+				<use href="src/img/icons.svg#icon-alert-triangle"></use>
+				</svg>
+			</div>
+			<p>${message}</p>
+		</div>
+		`;
+
+    this.#clear();
+    this.#parentEl.insertAdjacentHTML("afterbegin", markup);
+  }
+
+  renderMessage(message = this.#message) {
+    const markup = `
+			<div class="message">
+				<div>
+					<svg>
+						<use href="src/img/icons.svg#icon-smile"></use>
+					</svg>
+				</div>
+				<p>${message}</p>
+			</div>
+		`;
 
     this.#clear();
     this.#parentEl.insertAdjacentHTML("afterbegin", markup);
