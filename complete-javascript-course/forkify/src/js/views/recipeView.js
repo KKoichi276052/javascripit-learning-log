@@ -11,7 +11,6 @@ class RecipeView {
 
   renderRecipe(data) {
     this.#data = data;
-    console.log(this.#data);
     this.#clear();
     const markup = this.#generateRecipe();
     this.#parentEl.insertAdjacentHTML("afterbegin", markup);
