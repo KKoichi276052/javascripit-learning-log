@@ -10,6 +10,10 @@ import resultView from "./views/resultView";
 
 ///////////////////////////////////////
 
+if (module.hot) {
+  module.hot.accept();
+}
+
 const controlRecipes = async function () {
   try {
     recipeView.renderSpinner();
@@ -18,7 +22,7 @@ const controlRecipes = async function () {
     if (!id) return;
 
     await model.loadRecipe(id);
-
+    console.log(id);
     recipeView.render(model.state.recipe);
   } catch (err) {
     recipeView.renderError();
