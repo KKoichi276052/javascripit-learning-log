@@ -1,6 +1,7 @@
+import icons from "url:../img/icons.svg";
 const recipeContainer = document.querySelector(".recipe");
-import "core-js";
-import "regenerator-runtime";
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import * as model from "./model";
 import recipeView from "./views/recipeView";
 import searchView from "./views/searchView";
@@ -10,10 +11,6 @@ import resultView from "./views/resultView";
 
 ///////////////////////////////////////
 
-if (module.hot) {
-  module.hot.accept();
-}
-
 const controlRecipes = async function () {
   try {
     recipeView.renderSpinner();
@@ -22,7 +19,7 @@ const controlRecipes = async function () {
     if (!id) return;
 
     await model.loadRecipe(id);
-    console.log(id);
+
     recipeView.render(model.state.recipe);
   } catch (err) {
     recipeView.renderError();

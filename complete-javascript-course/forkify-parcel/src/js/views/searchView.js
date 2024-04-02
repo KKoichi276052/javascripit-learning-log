@@ -3,11 +3,11 @@ class SearchView {
 
   getQuery() {
     const query = this._parentEl.querySelector(".search__field").value;
-    this.clearInput();
+    this._clearInput();
     return query;
   }
 
-  clearInput() {
+  _clearInput() {
     this._parentEl.querySelector(".search__field").value = "";
   }
 
@@ -16,9 +16,6 @@ class SearchView {
       e.preventDefault();
       handler();
     });
-    // ["hashChange", "load"].forEach((ev) =>
-    //   window.addEventListener(ev, handler)
-    // );
   }
 }
 
