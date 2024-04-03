@@ -8,7 +8,6 @@ class RecipeView extends View {
     "We could not find that recipe. Please try another operations__content--active";
   _message;
 
-  //////////////////////////////////////////////////////
   addHandlerRender(handler) {
     ["hashchange", "load"].forEach((ev) =>
       window.addEventListener(ev, handler)

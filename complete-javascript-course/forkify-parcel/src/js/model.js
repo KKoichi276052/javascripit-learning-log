@@ -15,9 +15,10 @@ export const state = {
 export const loadRecipe = async function (id) {
   try {
     // const data = await getJson(`${API_URL}/${id}?key=${API_KEY}`);
-    const { data } = await getJson(`${API_URL}/${id}`);
+    const data = await getJson(`${API_URL}/${id}`);
+    console.log(data);
 
-    const { recipe } = data;
+    const { recipe } = data.data;
     state.recipe = {
       id: recipe.id,
       title: recipe.title,
