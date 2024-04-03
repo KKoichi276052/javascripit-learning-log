@@ -33,8 +33,6 @@ export default class View {
       if (!newEl.isEqualNode(curEl)) {
         // console.log(Array.from(newEl.attributes));
         Array.from(newEl.attributes).forEach((attr) => {
-          // console.log(attr);
-          console.log(attr.name, attr.value);
           curEl.setAttribute(attr.name, attr.value);
         });
       }
