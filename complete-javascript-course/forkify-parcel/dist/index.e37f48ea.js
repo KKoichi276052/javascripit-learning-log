@@ -606,6 +606,7 @@ const controlRecipes = async function() {
         (0, _recipeViewDefault.default).renderSpinner();
         const id = window.location.hash.slice(1);
         if (!id) return;
+        (0, _resultViewDefault.default).update(_model.getSearchResultsPage());
         await _model.loadRecipe(id);
         (0, _recipeViewDefault.default).render(_model.state.recipe);
     } catch (err) {
@@ -630,7 +631,7 @@ const controlPagination = function(goToPage) {
 };
 const controlServings = function(newServings) {
     _model.updateServings(newServings);
-    (0, _recipeViewDefault.default).render(_model.state.recipe);
+    (0, _recipeViewDefault.default).update(_model.state.recipe);
 };
 ///////////////////////////////////////////////////////////////
 const init = function() {
@@ -2673,6 +2674,7 @@ class RecipeView extends (0, _viewDefault.default) {
     _parentEl = document.querySelector(".recipe");
     _errorMessage = "We could not find that recipe. Please try another operations__content--active";
     _message;
+    //////////////////////////////////////////////////////
     addHandlerRender(handler) {
         [
             "hashchange",
@@ -2794,6 +2796,23 @@ class View {
         this._clear();
         const markup = this._generateMarkup();
         this._parentEl.insertAdjacentHTML("afterbegin", markup);
+    }
+    update(data) {
+        this._data = data;
+        const newMarkup = this._generateMarkup();
+        const newDOM = document.createRange().createContextualFragment(newMarkup);
+        const newElements = Array.from(newDOM.querySelectorAll("*"));
+        const curElements = Array.from(this._parentEl.querySelectorAll("*"));
+        newElements.forEach((newEl, i)=>{
+            const curEl = curElements[i];
+            if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== "") curEl.textContent = newEl.textContent;
+            if (!newEl.isEqualNode(curEl)) // console.log(Array.from(newEl.attributes));
+            Array.from(newEl.attributes).forEach((attr)=>{
+                // console.log(attr);
+                console.log(attr.name, attr.value);
+                curEl.setAttribute(attr.name, attr.value);
+            });
+        });
     }
     _clear() {
         this._parentEl.innerHTML = "";
