@@ -603,14 +603,13 @@ var _bookmarksViewDefault = parcelHelpers.interopDefault(_bookmarksView);
 var _addRecipeView = require("./views/addRecipeView");
 var _addRecipeViewDefault = parcelHelpers.interopDefault(_addRecipeView);
 var _config = require("./config");
-const recipeContainer = document.querySelector(".recipe");
 // https://forkify-api.herokuapp.com/v2
 ///////////////////////////////////////
 const controlRecipes = async function() {
     try {
-        (0, _recipeViewDefault.default).renderSpinner();
         const id = window.location.hash.slice(1);
         if (!id) return;
+        (0, _recipeViewDefault.default).renderSpinner();
         (0, _resultViewDefault.default).update(_model.getSearchResultsPage());
         await _model.loadRecipe(id);
         (0, _recipeViewDefault.default).render(_model.state.recipe);
