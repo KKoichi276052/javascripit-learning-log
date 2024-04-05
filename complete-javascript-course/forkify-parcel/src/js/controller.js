@@ -1,15 +1,14 @@
-import icons from "url:../img/icons.svg";
-const recipeContainer = document.querySelector(".recipe");
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-import * as model from "./model";
-import recipeView from "./views/recipeView";
-import searchView from "./views/searchView";
-import resultView from "./views/resultView";
-import paginationView from "./views/paginationView";
-import bookmarksView from "./views/bookmarksView";
-import addRecipeView from "./views/addRecipeView";
-import { MODAL_CLOSE_SEC } from "./config";
+import icons from 'url:../img/icons.svg';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+import * as model from './model';
+import recipeView from './views/recipeView';
+import searchView from './views/searchView';
+import resultView from './views/resultView';
+import paginationView from './views/paginationView';
+import bookmarksView from './views/bookmarksView';
+import addRecipeView from './views/addRecipeView';
+import { MODAL_CLOSE_SEC } from './config';
 
 // https://forkify-api.herokuapp.com/v2
 
@@ -17,10 +16,10 @@ import { MODAL_CLOSE_SEC } from "./config";
 
 const controlRecipes = async function () {
   try {
-    recipeView.renderSpinner();
-
     const id = window.location.hash.slice(1);
     if (!id) return;
+
+    recipeView.renderSpinner();
 
     resultView.update(model.getSearchResultsPage());
 
@@ -89,7 +88,7 @@ const controlAddRecipe = async function (newRecipe) {
     bookmarksView.render(model.state.bookmarks);
 
     console.log(model.state.recipe.id);
-    window.history.pushState(null, "", `#${model.state.recipe.id}`);
+    window.history.pushState(null, '', `#${model.state.recipe.id}`);
 
     setTimeout(function () {
       addRecipeView.toggleWindow(), MODAL_CLOSE_SEC * 1000;
